@@ -20,7 +20,7 @@ TC02 - Search Employee By Job Title
     [Tags]    search_employee
     [Template]    Verify Search Employee By Job Title
     # Test Data    Expected Result
-    QA Engineer    # Search with specific job title
+    Software Engineer    # Search with specific job title
     ${EMPTY}       # Search with random job title
     Non Existent Job    # Search with non-existent job title
 

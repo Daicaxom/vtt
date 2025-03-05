@@ -16,4 +16,4 @@ ${PROFILE_NAME}           xpath://h6[contains(@class,'--strong')]
 # Locator cho bảng kết quả
 ${TABLE_ROWS}            xpath://div[@role='row']
 ${NO_RECORDS_MESSAGE}    xpath://span[text()='No Records Found']
-${JOB_TITLE_CELL}       xpath://div[@role='cell'][4]//div 
+${JOB_TITLE_CELL}       xpath://div[@role='row']//div[@role='cell'][6] 

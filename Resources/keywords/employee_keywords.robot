@@ -78,7 +78,9 @@ Search Employee By Job Title
 
 Verify Search Results
     [Arguments]    ${expectedJobTitle}
-    Wait Until Element Is Visible    ${TABLE_ROWS}    10s    OR    Wait Until Element Is Visible    ${NO_RECORDS_MESSAGE}    10s
+    ${status}=    Run Keyword And Return Status    Wait Until Element Is Visible    ${TABLE_ROWS}    10s
+    Run Keyword If    not ${status}    Wait Until Element Is Visible    ${NO_RECORDS_MESSAGE}    10s
+    
     ${records_exist}=    Run Keyword And Return Status    Page Should Not Contain Element    ${NO_RECORDS_MESSAGE}
     
     IF    ${records_exist}
