@@ -1,9 +1,11 @@
 *** Settings ***
 Resource    ../pages/employee_page.robot
+Resource    ../data/job_titles.robot
 Library     SeleniumLibrary
 Library     String
 Library     Collections
 Library     BuiltIn
+Library     random
 
 *** Keywords ***
 Navigate To PIM Page
@@ -41,32 +43,33 @@ Verify Employee Profile
     Sleep    1s
 
 Get Random Job Title
+    ${random_index}=    Evaluate    random.randint(0, len($JOB_TITLES)-1)    random
+    ${selected_title}=    Get From List    ${JOB_TITLES}    ${random_index}
     Wait Until Element Is Visible    ${JOB_TITLE_DROPDOWN}    10s
     Click Element    ${JOB_TITLE_DROPDOWN}
     Sleep    1s
-    Wait Until Element Is Visible    ${JOB_TITLE_OPTIONS}    10s
-    @{job_titles}=    Get WebElements    ${JOB_TITLE_OPTIONS}
-    ${list_length}=    Get Length    ${job_titles}
-    ${random_index}=    Evaluate    random.randint(0, ${list_length}-1)    random
-    ${selected_title}=    Get Text    ${job_titles}[${random_index}]
+    Wait Until Element Is Visible    xpath://span[text()='${selected_title}']    10s
+    Click Element    xpath://span[text()='${selected_title}']
     [Return]    ${selected_title}
 
 Search Employee By Job Title
     [Arguments]    ${jobTitle}=${EMPTY}
-    
     ${selected_job_title}=    Set Variable If    
     ...    '${jobTitle}'=='${EMPTY}'    ${EMPTY}    ${jobTitle}
     
     IF    '${selected_job_title}'=='${EMPTY}'
         ${selected_job_title}=    Get Random Job Title
     ELSE
+        # Verify job title is valid
+        List Should Contain Value    ${JOB_TITLES}    ${jobTitle}    
+        ...    msg=Invalid job title: '${jobTitle}'. Valid titles are: ${JOB_TITLES}
         Wait Until Element Is Visible    ${JOB_TITLE_DROPDOWN}    10s
         Click Element    ${JOB_TITLE_DROPDOWN}
         Sleep    1s
+        Wait Until Element Is Visible    xpath://span[text()='${jobTitle}']    10s
+        Click Element    xpath://span[text()='${jobTitle}']
     END
     
-    Wait Until Element Is Visible    xpath://span[@class='oxd-select-text-input'][contains(text(),'${selected_job_title}')]    10s
-    Click Element    xpath://span[@class='oxd-select-text-input'][contains(text(),'${selected_job_title}')]
     Wait Until Element Is Visible    ${SEARCH_BUTTON}    10s
     Click Element    ${SEARCH_BUTTON}
     Sleep    2s

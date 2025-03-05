@@ -7,8 +7,7 @@ ${LAST_NAME_INPUT}       xpath://input[@name='lastName']
 ${SAVE_BUTTON}           xpath://button[text()=' Save ']
 
 # Locator cho job title search
-${JOB_TITLE_DROPDOWN}      xpath://form//div[contains(.,'Job Title')]//following::div[contains(@class, 'oxd-select-text')]//i
-${JOB_TITLE_OPTIONS}       xpath://div[@role='listbox']//span
+${JOB_TITLE_DROPDOWN}      xpath:/html/body/div/div[1]/div[2]/div[2]/div/div[1]/div[2]/form/div[1]/div/div[6]/div/div[2]/div/div/div[2]/i
 ${SEARCH_BUTTON}           xpath://button[text()=' Search ']
 
 # Locator cho profile name
